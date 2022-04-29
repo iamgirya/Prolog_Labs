@@ -48,11 +48,11 @@ parent(duhovlad,zlatomir).
 parent(zhdana,zdislava).
 parent(zhdana,zlatomir).
 
-men:-man(X),write(X),nl,fail.
-women:-woman(X),write(X),nl,fail.
-
-men:-man(X),write(X),nl,fail.
-women:-woman(X),write(X),nl,fail.
+manw:-man(X),write(X),nl,fail.
+womanw:-woman(X),write(X),nl,fail.
 %11
 son(X):- parent(X,Y),man(Y),write(Y),nl,fail.
 son(X,Y):-parent(Y,X),man(X).
+%12
+sister(X):-woman(X),parent(Z,X),parent(Z,Y),man(Z),woman(Y),X \= Y,write(X),write(' '),write(Y),nl,fail.
+sister(X,Y):-woman(X),woman(Y),parent(Z,X),parent(Z,Y),man(Z).
