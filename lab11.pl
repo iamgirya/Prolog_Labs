@@ -59,3 +59,9 @@ sister(X,Y):-woman(X),woman(Y),parent(Z,X),parent(Z,Y),man(Z).
 %13
 grand_ma(X,Y):-parent(X,Z),parent(Z,Y),woman(X),!.
 grand_mas(X):-parent(Z,X),parent(Y,Z),woman(Y),write(Y),nl.
+%14
+grand_pa_and_da(X,Y):- parent(X,Z),parent(Z,Y),woman(Y),man(X);parent(Y,Z),parent(Z,X),woman(X),man(Y).
+
+in_list([],_):-fail.
+in_list([X|_],X).
+in_list([_|T],X):-in_list(T,X).
