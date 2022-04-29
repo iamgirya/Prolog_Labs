@@ -56,3 +56,6 @@ son(X,Y):-parent(Y,X),man(X).
 %12
 sister(X):-woman(X),parent(Z,X),parent(Z,Y),man(Z),woman(Y),X \= Y,write(X),write(' '),write(Y),nl,fail.
 sister(X,Y):-woman(X),woman(Y),parent(Z,X),parent(Z,Y),man(Z).
+%13
+grand_ma(X,Y):-parent(X,Z),parent(Z,Y),woman(X),!.
+grand_mas(X):-parent(Z,X),parent(Y,Z),woman(Y),write(Y),nl.
