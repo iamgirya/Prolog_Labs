@@ -62,9 +62,9 @@ grand_mas(X):-parent(Z,X),parent(Y,Z),woman(Y),write(Y),nl.
 %14
 grand_pa_and_da(X,Y):- parent(X,Z),parent(Z,Y),woman(Y),man(X);parent(Y,Z),parent(Z,X),woman(X),man(Y).
 %15
-maxDigit(0,0):-!.
-maxDigit(X,M):-
-	X1 is X div 10,
-	maxDigit(X1,M1),
-	M2 is X mod 10,
-	(M2<M1, M is M2;M is M1). 
+maxDigitU(0,0):-!.
+maxDigitU(X,M):- X1 is X div 10,maxDigitU(X1,M1),M2 is X mod 10,(M2>M1, M is M2;M is M1),!. 
+%16
+maxDigitD(X,M):- maxDigitD(X,0,M).
+maxDigitD(0,M,M):-!.
+maxDigitD(X,Y,M):-M1 is X mod 10, X1 is X div 10,M1 > Y,!,maxDigitD(X1,M1,M); X2 is X div 10, maxDigitD(X2,Y,M).
