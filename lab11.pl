@@ -75,4 +75,8 @@ sumOfDigWhatDivOn3U(X,M):-X1 is X div 10,sumOfDigWhatDivOn3U(X1,M1),M2 is X mod 
 sumOfDigWhatDivOn3D(X,R):-sumOfDigWhatDivOn3D(X,0,R).
 sumOfDigWhatDivOn3D(0,T,T):-!.
 sumOfDigWhatDivOn3D(X,P,R):-D is X mod 10,0 is D mod 3, P1 is (P + D),X1 is X div 10,sumOfDigWhatDivOn3D(X1,P1,R),!
-    ;X2 is X div 10,sumOfDigWhatDivOn3D(X2,P,R).
+    ;X2 is X div 10,sumOfDigWhatDivOn3D(X2,P,R). 
+%19
+fibU(1,1):-!.
+fibU(2,1):-!.
+fibU(N, X):- N1 is N - 1, N2 is N - 2, fibU(N1, X1), fibU(N2, X2), X is X1 + X2.
