@@ -102,12 +102,13 @@ listleng([_|T],I):-listleng(T,I1),I is I1 + 1.
 append([],X,X).
 append([X|T],Y,[X|T1]) :- append(T,Y,T1).
 
-readlist(X,Y):-readlist([],X,0,Y).
-readlist(A,A,G,G):-!.
-readlist(A,B,C,D):- C1 is C+1,read(X),append(A,[X],A1),readlist(A1,B,C1,D).
+readList(X,Y):-readList([],X,0,Y).
+readList(A,A,G,G):-!.
+readList(A,B,C,D):- C1 is C+1,read(X),append(A,[X],A1),readList(A1,B,C1,D).
 
-writelist([]):-!.
-writelist([H|T]):- write(H),write(' '),writelist(T).
+writeList([]):-!.
+writeList([H]):-write(H).
+writeList([H|T]):- write(H),write(' '),writeList(T).
 
 maxIndexInList([H|T],Max,IndexMax):- maxIndexInList([H|T],H,Max,0,IndexMax,0).
 maxIndexInList([],NowMax,Max,NowIndex,IndexMax,Index):-Max is NowMax,IndexMax is NowIndex,!.
@@ -121,9 +122,77 @@ maxIndexInList([H|T],NowMax,Max,NowIndex,IndexMax,Index):-
 
 countAfterMax([Head|Tail],COUNT):- maxIndexInList([Head|Tail],Max,IndexMax), listleng([Head|Tail],Length), COUNT is (Length-1-IndexMax).
 
-task15:- read(N),readlist(List,N),countAfterMax(List,Count),write(Count),!.
-%6
+task5:- read(N),readlist(List,N),countAfterMax(List,Count),write(Count),!.
+%6 Дан целочисленный массив. Необходимо переставить в обратном порядке элементы массива, расположенные между его минимальным и максимальным элементами.
+minIndexInList([H|T],Min,IndexMin):- minIndexInList([H|T],H,Min,0,IndexMin,0).
+minIndexInList([],NowMin,Min,NowIndex,IndexMin,Index):-Min is NowMin,IndexMin is NowIndex,!.
+minIndexInList([H|T],NowMin,Min,NowIndex,IndexMin,Index):-
+    Index1 is Index+1,
+    (
+        NowMin >= H,
+        minIndexInList(T,H,Min,Index,IndexMin,Index1);
+        minIndexInList(T,NowMin,Min,NowIndex,IndexMin,Index1)
+    ),!.
 
+makeEmptyList([]).
+
+cutList(List,From,To,NewList):-cutList(List,From,To,NewList,0).
+cutList([],From,To,NewList,I):-makeEmptyList(NewList),!.
+cutList([H|T],From,To,NewList,I):-
+    I1 is I+1,
+    (
+        I>=From,
+        (
+            I<To,
+            cutList(T,From,To,NewList1,I1),
+            append([H],NewList1,NewList);
+            makeEmptyList(NewList)
+        );
+        cutList(T,From,To,NewList,I1)
+    ),
+    !.
+
+takeOnIndex(List,Index,Elem):-takeOnIndex(List,Index,Elem,0).
+takeOnIndex([H|T],Index,Elem,I):-
+    I1 is I+1,
+    (
+        I is Index,
+        Elem is H;
+        takeOnIndex(T,Index,Elem,I1)
+    ),
+    !.
+
+swapList(List,NewList):-listleng(List,Length),Length1 is Length-1,swapList(List,NewList,Length1).
+swapList(List,NewList,-1):-makeEmptyList(NewList),!.
+swapList(List,NewList,I):-
+    takeOnIndex(List,I,Elem),
+    I1 is I-1,
+    swapList(List,NewList1,I1),
+    append([Elem],NewList1,NewList),
+    !.
+
+swapBetweenMinAndMax(List,NewList):-
+    listleng(List,Length),
+    maxIndexInList(List,Max,IndexMax),
+    minIndexInList(List,Min,IndexMin),
+    (
+        IndexMax < IndexMin,
+        
+        IndexMax1 is IndexMax+1,
+        cutList(List,0,IndexMax1,FirstPart),
+        cutList(List,IndexMax1,IndexMin,SecondPart),
+        cutList(List,IndexMin,Length,ThirdPart);
+        
+        IndexMin1 is IndexMin+1,
+        cutList(List,0,IndexMin1,FirstPart),
+        cutList(List,IndexMin1,IndexMax,SecondPart),
+        cutList(List,IndexMax,Length,ThirdPart)
+    ),
+    swapList(SecondPart,SwapedSecondPart),
+    append(FirstPart,SwapedSecondPart,FSPart),
+    append(FSPart,ThirdPart,NewList).
+
+task6:- read(N),readList(List,N),swapBetweenMinAndMax(List,NewList),writeList(NewList),!.
 %7	
 
 %8
