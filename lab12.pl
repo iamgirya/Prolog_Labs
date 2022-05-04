@@ -205,8 +205,32 @@ countElemBetweenAB([H|T],A,B,Count):-
     ).
 
 task7:- read(N),readList(List,N),read(A),read(B),countElemBetweenAB(List,A,B,Count),write(Count),!.
-%8
+%8 Дан целочисленный массив. Необходимо найти элементы, расположенные между первым и вторым максимальным.
+listBetweenMaxs(List,NewList):-
+    maxIndexInList(List,Max,IndexMax),
+    secondMaxIndexInList(List,SecondMax,SecondIndexMax,IndexMax),
+    (
+        IndexMax < SecondIndexMax,
 
+        IndexMax1 is IndexMax+1,
+        cutList(List,IndexMax1,SecondIndexMax,NewList);
+
+        SecondIndexMax1 is SecondIndexMax+1,
+        cutList(List,SecondIndexMax1,IndexMax,NewList)
+    ).
+
+secondMaxIndexInList([H|T],Max,IndexMax,FIndexMax):- secondMaxIndexInList([H|T],H,Max,0,IndexMax,0,FIndexMax).
+secondMaxIndexInList([],NowMax,Max,NowIndex,IndexMax,Index,FIndexMax):-Max is NowMax,IndexMax is NowIndex,!.
+secondMaxIndexInList([H|T],NowMax,Max,NowIndex,IndexMax,Index,FIndexMax):-
+    Index1 is Index+1,
+    (
+        H >= NowMax,
+        not(Index = IndexMax),
+        secondMaxIndexInList(T,H,Max,Index,IndexMax,Index1,FIndexMax);
+        secondMaxIndexInList(T,NowMax,Max,NowIndex,IndexMax,Index1,FIndexMax)
+    ),!.
+
+task8:- read(N),readList(List,N),listBetweenMaxs(List,NewList),writeList(NewList),!.
 %9
 
 %10
