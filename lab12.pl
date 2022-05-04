@@ -177,7 +177,7 @@ swapBetweenMinAndMax(List,NewList):-
     minIndexInList(List,Min,IndexMin),
     (
         IndexMax < IndexMin,
-        
+
         IndexMax1 is IndexMax+1,
         cutList(List,0,IndexMax1,FirstPart),
         cutList(List,IndexMax1,IndexMin,SecondPart),
@@ -194,7 +194,17 @@ swapBetweenMinAndMax(List,NewList):-
 
 task6:- read(N),readList(List,N),swapBetweenMinAndMax(List,NewList),writeList(NewList),!.
 %7	
+countElemBetweenAB([],A,B,Count):-Count is 0,!.
+countElemBetweenAB([H|T],A,B,Count):-
+    (
+        H<B,
+        H>A,
+        countElemBetweenAB(T,A,B,Count1),
+        Count is Count1+1;
+        countElemBetweenAB(T,A,B,Count)
+    ).
 
+task7:- read(N),readList(List,N),read(A),read(B),countElemBetweenAB(List,A,B,Count),write(Count),!.
 %8
 
 %9
