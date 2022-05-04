@@ -96,8 +96,10 @@ sod(SUM,A,I,S):-
     ),
     !.
 %4
-
+listleng([],0).
+listleng([_|T],I):-listleng(T,I1),I is I1 + 1.
 %5
+
 
 %6
 
