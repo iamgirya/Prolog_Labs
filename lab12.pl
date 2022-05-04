@@ -225,12 +225,38 @@ secondMaxIndexInList([H|T],NowMax,Max,NowIndex,IndexMax,Index,FIndexMax):-
     Index1 is Index+1,
     (
         H >= NowMax,
-        not(Index = IndexMax),
+        not(Index = FIndexMax),
+
         secondMaxIndexInList(T,H,Max,Index,IndexMax,Index1,FIndexMax);
+
         secondMaxIndexInList(T,NowMax,Max,NowIndex,IndexMax,Index1,FIndexMax)
     ),!.
 
 task8:- read(N),readList(List,N),listBetweenMaxs(List,NewList),writeList(NewList),!.
-%9
+%9 Дан целочисленный массив. Необходимо найти количество элементов между первым и последним минимальным.
+listBetweenMins(List,NewList):-
+    minIndexInList(List,Min,IndexMin),
+    secondMinIndexInList(List,SecondMin,SecondIndexMin,IndexMin),
+    (
+        IndexMin < SecondIndexMin,
 
+        IndexMin1 is IndexMin+1,
+        cutList(List,IndexMin1,SecondIndexMin,NewList);
+
+        SecondIndexMin1 is SecondIndexMin+1,
+        cutList(List,SecondIndexMin1,IndexMin,NewList)
+    ).
+
+secondMinIndexInList([H|T],Min,IndexMin,FIndexMin):- secondMinIndexInList([H|T],H,Min,0,IndexMin,0,FIndexMin).
+secondMinIndexInList([],NowMin,Min,NowIndex,IndexMin,Index,FIndexMin):-Min is NowMin,IndexMin is NowIndex,!.
+secondMinIndexInList([H|T],NowMin,Min,NowIndex,IndexMin,Index,FIndexMin):-
+    Index1 is Index+1,
+    (
+        NowMin >= H,
+        not(Index = FIndexMin),
+        secondMinIndexInList(T,H,Min,Index,IndexMin,Index1,FIndexMin);
+        secondMinIndexInList(T,NowMin,Min,NowIndex,IndexMin,Index1,FIndexMin)
+    ),!.
+
+task9:- read(N),readList(List,N),listBetweenMins(List,NewList),listleng(NewList,Length),write(Length),!.
 %10
