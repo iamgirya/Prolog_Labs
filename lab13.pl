@@ -94,8 +94,30 @@ listDelOnIndexAndUnique(List,NewList):-
     listDelOnAnotherList(UniList,UniIndexList,NewList).
 
 task3:- read(N),readList(List,N),listDelOnIndexAndUnique(List,NewList),writeList(NewList),!.
-%4
-%5
+%4 Беседует трое друзей: Белокуров, Рыжов, Чернов. Брюнет
+% сказал Белокурову: “Любопытно, что один из нас блондин, другой брюнет,
+% третий - рыжий, но ни у кого цвет волос не соответствует фамилии”. Какой
+% цвет волос у каждого из друзей?
+inList([],_):-fail.
+inList([X|_],X).
+inList([_|T],X):-inList(T,X).
+
+task4:- 
+    Hairs=[_,_,_],
+    inList(Hairs,[belov,_]),
+    inList(Hairs,[chernov,_]),
+    inList(Hairs,[rijov,_]),
+    inList(Hairs,[_,rij]),
+    inList(Hairs,[_,blond]),
+    inList(Hairs,[_,brunet]),
+    not(inList(Hairs,[belov,blond])),
+    not(inList(Hairs,[chernov,brunet])),
+    not(inList(Hairs,[rijov,rij])),
+    write(Hairs),
+    !.
+%5 Три подруги вышли в белом, зеленом и синем платьях и туфлях. Известно, что только у Ани цвета платья и туфлей совпадали.
+% Ни туфли,ни платье Вали не были белыми. Наташа была в зеленых туфлях. Определить цвета платья и туфель на каждой из подруг.
+
 %6
 %7	
 %8
