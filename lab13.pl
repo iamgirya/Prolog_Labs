@@ -179,13 +179,37 @@ task7:-
     next([glass,_],[_,leche],Kortej),
     write(Kortej),
     !.
-%8
-task8:- 
-    Kortej=[_,_,_],
-    inList(Kortej,[valya,_,_]),
-    inList(Kortej,[_,bel,_]),
-    inList(Kortej,[_,_,bel]),
-    not(inList(Kortej,[valya,_,_])),
+%8 
+/*
+Воронов, Павлов, Левицкий и Сахаров – четыре талантли-
+вых молодых человека. Один из них танцор, другой художник, третий-певец,
+а четвертый-писатель. О них известно следующее: Воронов и Левицкий си-
+дели в зале консерватории в тот вечер, когда певец дебютировал в сольном
+концерте. Павлов и писатель вместе позировали художнику. Писатель написал
+биографическую повесть о Сахарове и собирается написать о Воронове. Воро-
+нов никогда не слышал о Левицком. Кто чем занимается? */
+task8 :-
+    Kortej = [_,_,_,_],
+    inList(Kortej,[voronov,_]),
+    inList(Kortej,[pavlov,_]),
+    inList(Kortej,[levizkiy,_]),
+    inList(Kortej,[saharov,_]),
+    inList(Kortej,[_,dancer]),
+    inList(Kortej,[_,artist]),
+    inList(Kortej,[_,singer]),
+    inList(Kortej,[_,writer]),
+    not(inList(Kortej,[voronov,singer])),
+    not(inList(Kortej,[levizkiy,singer])),
+    not(inList(Kortej,[pavlov,writer])),
+    not(inList(Kortej,[pavlov,artist])),
+    not(inList(Kortej,[saharov,writer])),
+    not(inList(Kortej,[voronov,writer])),
+    (
+        inList(Kortej,[voronov,artist]), % Так как Воронов не слышал о Левицком, то он не мог его рисовать, если он является художником
+        not(inList(Kortej,[levizkiy,writer]));
+
+        not(inList(Kortej,[voronov,artist])) % иначе
+    ),
     write(Kortej),
     !.
 %9
