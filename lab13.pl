@@ -213,20 +213,35 @@ task8 :-
     write(Kortej),
     !.
 %9
+/*
+Три друга заняли первое, второе, третье места в соревнова-
+ниях универсиады. Друзья разной национальности, зовут их по-разному, и лю-
+бят они разные виды спорта. Майкл предпочитает баскетбол и играет лучше,
+чем американец. Израильтянин Саймон играет лучше теннисиста. Игрок в кри-
+кет занял первое место. Кто является австралийцем? Каким спортом увлека-
+ется Ричард?*/
 task9:- 
-    Kortej=[_,_,_],
-    inList(Kortej,[valya,_,_]),
-    inList(Kortej,[_,bel,_]),
-    inList(Kortej,[_,_,bel]),
-    not(inList(Kortej,[valya,_,_])),
+    Kortej = [_,_,_],
+    inList(Kortej,[maikl,_,basket,A]),
+    inList(Kortej,[saimon,israel,_,C]),
+    inList(Kortej,[_,_,cricket,1]),
+    inList(Kortej,[richard,_,_,_]),
+    inList(Kortej,[_,_,tenis,D]),
+    inList(Kortej,[_,american,_,B]),
+    inList(Kortej,[_,australian,_,_]),
+    inList(Kortej,[_,_,_,2]),
+    inList(Kortej,[_,_,_,3]),
+    not(inList(Kortej,[maikl,american,_,_])),
+    not(inList(Kortej,[saimon,_,tenis,_])),
+    A<B,
+    C<D,
     write(Kortej),
     !.
-%10
-task10:- 
-    Kortej=[_,_,_],
-    inList(Kortej,[valya,_,_]),
-    inList(Kortej,[_,bel,_]),
-    inList(Kortej,[_,_,bel]),
-    not(inList(Kortej,[valya,_,_])),
-    write(Kortej),
-    !.
+%10 
+/* Пятеро детей Алик, Боря, Витя, Лена и Даша приехали в ла-
+герь из 5 разных городов: Харькова, Умани, Полтавы, Славянска и Краматор-
+ска. Есть 4 высказывания: 1) Если Алик не из Умани, то Боря из Краматорска.
+2) Или Боря, или Витя приехали из Харькова. 3) Если Витя не из Славянска, то
+Лена приехала из Харькова. 4) Или Даша приехала из Умани, или Лена из Кра-
+маторска. Кто откуда приехал?
+*/
