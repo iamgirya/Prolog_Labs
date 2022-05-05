@@ -133,24 +133,22 @@ task5:-
     not(inList(Kortej,[nastya,Y,Y])),
     write(Kortej),
     !.
-%6
+%6 На заводе работали три друга: слесарь, токарь и сварщик. Их фамилии Борисов, Иванов и Семенов. У слесаря нет ни братьев, ни сестер. Он
+%самый младший из друзей. Семенов, женатый на сестре Борисова, старше токаря. Назвать фамилии слесаря, токаря и сварщика.
 task6:- 
     Kortej=[_,_,_],
-    inList(Kortej,[valya,_,_]),
-    inList(Kortej,[_,bel,_]),
-    inList(Kortej,[_,_,bel]),
-    not(inList(Kortej,[valya,_,_])),
+    inList(Kortej,[slesar,_,0,0,_]),
+    inList(Kortej,[tokar,_,_,1,_]),
+    inList(Kortej,[svarshick,_,_,_,_]),
+    inList(Kortej,[_,semenov,_,2,borisov]),
+    inList(Kortej,[_,ivanov,_,_,_]),
+    inList(Kortej,[_,borisov,1,_,_]),
     write(Kortej),
     !.
-%7	
-task7:- 
-    Kortej=[_,_,_],
-    inList(Kortej,[valya,_,_]),
-    inList(Kortej,[_,bel,_]),
-    inList(Kortej,[_,_,bel]),
-    not(inList(Kortej,[valya,_,_])),
-    write(Kortej),
-    !.
+%7 В бутылке, стакане, кувшине и банке находятся молоко, лимонад, квас и вода. Известно, что вода и молоко не в бутылке, 
+% сосуд с лимонадом находится между кувшином и сосудом с квасом, в банке - не лимонад и не вода. Стакан находится около банки и сосуда с молоком.
+% Как распределены эти жидкости по сосудам.
+
 %8
 task8:- 
     Kortej=[_,_,_],
