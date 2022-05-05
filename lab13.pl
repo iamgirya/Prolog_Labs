@@ -116,10 +116,65 @@ task4:-
     write(Hairs),
     !.
 %5 Три подруги вышли в белом, зеленом и синем платьях и туфлях. Известно, что только у Ани цвета платья и туфлей совпадали.
-% Ни туфли,ни платье Вали не были белыми. Наташа была в зеленых туфлях. Определить цвета платья и туфель на каждой из подруг.
-
+% Ни туфли, ни платье Вали не были белыми. Наташа была в зеленых туфлях. Определить цвета платья и туфель на каждой из подруг.
+task5:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[anya,X,X]),
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[nastya,zel,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,sin,_]),
+    inList(Kortej,[_,zel,_]),
+    inList(Kortej,[_,_,bel]),
+    inList(Kortej,[_,_,sin]),
+    inList(Kortej,[_,_,zel]),
+    not(inList(Kortej,[valya,bel,_])),
+    not(inList(Kortej,[valya,_,bel])),
+    not(inList(Kortej,[nastya,Y,Y])),
+    write(Kortej),
+    !.
 %6
+task6:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,_,bel]),
+    not(inList(Kortej,[valya,_,_])),
+    write(Kortej),
+    !.
 %7	
+task7:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,_,bel]),
+    not(inList(Kortej,[valya,_,_])),
+    write(Kortej),
+    !.
 %8
+task8:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,_,bel]),
+    not(inList(Kortej,[valya,_,_])),
+    write(Kortej),
+    !.
 %9
+task9:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,_,bel]),
+    not(inList(Kortej,[valya,_,_])),
+    write(Kortej),
+    !.
 %10
+task10:- 
+    Kortej=[_,_,_],
+    inList(Kortej,[valya,_,_]),
+    inList(Kortej,[_,bel,_]),
+    inList(Kortej,[_,_,bel]),
+    not(inList(Kortej,[valya,_,_])),
+    write(Kortej),
+    !.
