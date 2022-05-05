@@ -22,7 +22,36 @@ countElemInAB([H|T],A,B,Count):-
     ).
 
 task1:- read(N),readList(List,N),read(A),read(B),countElemInAB(List,A,B,Count),write(Count),!.
-%2
+%2Дан массив чисел. Необходимо проверить, чередуются ли в нем целые и вещественные числа.
+isInt(A):-
+    IntA is round(A),
+    IntA = A.
+
+isFloatIntAlternate([H|T],Flag):- 
+    isInt(H),
+
+    isFloatIntAlternate(T,Flag,1);
+
+    isFloatIntAlternate(T,Flag,0).
+isFloatIntAlternate([],Flag,NowFlag):-Flag is 1,!.
+isFloatIntAlternate([H|T],Flag,NowFlag):-
+    (
+        isInt(H),
+        NowFlag is 0,
+
+        isFloatIntAlternate(T,Flag,1)
+    );
+    (
+        not(isInt(H)),
+        NowFlag is 1,
+
+        isFloatIntAlternate(T,Flag,0)
+    );
+    (
+        Flag is 0
+    ).
+    
+task2:- read(N),readList(List,N),isFloatIntAlternate(List,Flag),write(Flag),!.
 %3
 %4
 %5
