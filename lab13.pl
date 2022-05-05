@@ -11,6 +11,8 @@ writeList([]):-!.
 writeList([H]):-write(H).
 writeList([H|T]):- write(H),write(' '),writeList(T).
 
+makeEmptyList([]).
+
 countElemInAB([],A,B,Count):-Count is 0,!.
 countElemInAB([H|T],A,B,Count):-
     (
@@ -52,7 +54,46 @@ isFloatIntAlternate([H|T],Flag,NowFlag):-
     ).
     
 task2:- read(N),readList(List,N),isFloatIntAlternate(List,Flag),write(Flag),!.
-%3
+%3 Дан список. Построить массив из элементов, делящихся на свой номер и встречающихся в исходном массиве 1 раз.
+isElemUnique(List,Elem):-countOfThisElem(List,Elem,Count),1 is Count.
+
+countOfThisElem([],Elem,Count):- Count is 0,!.
+countOfThisElem([H|T],Elem,Count):-
+    H = Elem,
+
+    countOfThisElem(T,Elem,Count1),
+    Count is 1+Count1;
+
+    countOfThisElem(T,Elem,Count),!.   
+
+listUniqueWithIndex(List,UniList,UniIndexList):-listUniqueWithIndex(List,UniList,UniIndexList,0,List).
+listUniqueWithIndex([],UniList,UniIndexList,Index,StartList):-makeEmptyList(UniList),makeEmptyList(UniIndexList),!.
+listUniqueWithIndex([H|T],UniList,UniIndexList,Index,StartList):-
+    I1 is Index+1,
+    (
+        isElemUnique(StartList,H),
+
+        listUniqueWithIndex(T,UniList1,UniIndexList1,I1,StartList),
+        append([H],UniList1,UniList),
+        append([I1],UniIndexList1,UniIndexList);
+
+        listUniqueWithIndex(T,UniList,UniIndexList,I1,StartList)
+    ),!.
+
+listDelOnAnotherList([],[],NewList).
+listDelOnAnotherList([UH|UT],[IH|IT],NewList):-
+    0 is UH mod IH,
+
+    listDelOnAnotherList(UT,IT,NewList1),
+    append([UH],NewList1,NewList),!;
+
+    listDelOnAnotherList(UT,IT,NewList),!.
+
+listDelOnIndexAndUnique(List,NewList):-
+    listUniqueWithIndex(List,UniList,UniIndexList),
+    listDelOnAnotherList(UniList,UniIndexList,NewList).
+
+task3:- read(N),readList(List,N),listDelOnIndexAndUnique(List,NewList),writeList(NewList),!.
 %4
 %5
 %6
