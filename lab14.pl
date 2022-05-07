@@ -145,6 +145,25 @@ getMaxLengthStr([ListStrH|ListStrT],MaxLength,NowMax):-
 task21:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/21.txt'),readListS(ListStr),getMaxLengthStr(ListStr,MaxLength),seen,
 	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/21.txt'),write(MaxLength),told.
 %2.2 Дан файл. Определить, сколько в файле строк, не содержащих пробелы.
+getCountOfStrWithoutSpace([],Count):- Count is 0,!.
+getCountOfStrWithoutSpace([ListStrH|ListStrT],Count):-
+	isThisCharInStr(ListStrH,32),
+
+	getCountOfStrWithoutSpace(ListStrT,Count),!;
+
+	getCountOfStrWithoutSpace(ListStrT,Count1),
+	Count is Count1+1,!.
+
+isThisCharInStr([],Char):-fail,!.
+isThisCharInStr([StrH|StrT],Char):-!,
+	(
+		StrH = Char;
+
+		isThisCharInStr(StrT,Char)
+	),!.
+
+task22:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/22.txt'),readListS(ListStr),getCountOfStrWithoutSpace(ListStr,Count),seen,
+	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/22.txt'),write(Count),told.
 %2.3 Дан файл, найти и вывести на экран только те строки, в которых букв А больше, чем в среднем на стр
 %2.4 Дан файл, вывести самое частое слово.
 %2.5 Дан файл, вывести в отдельный файл строки, состоящие из слов, не повторяющихся в исходном файле.
