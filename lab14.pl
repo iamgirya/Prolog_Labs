@@ -26,6 +26,18 @@ listleng([_|T],I):-listleng(T,I1),I is I1 + 1.
 %1.1 Дана строка. Вывести ее три раза через запятую и показать количество символов в ней.
 task11:-readS(Str,N,0),writeS(Str),write(", "),writeS(Str),write(", "),writeS(Str),write(" , "),write(N).
 %1.2 Дана строка. Найти количество слов.
+countOfWords([],Count):-Count is 1,!.
+countOfWords([H|T],Count):-
+	(
+		H is 32,
+		
+		countOfWords(T,Count1),
+		Count is Count1+1;
+
+		countOfWords(T,Count)
+	),!.
+
+task12:-readS(Str,N,0),countOfWords(Str,Count),write(Count).
 %1.3 Дана строка, определить самое частое слово
 
 %1.4 Дана строка. Вывести первые три символа и последний три символа, если длина строки больше 5 Иначе вывести первый символ столько раз, какова длина строки.
