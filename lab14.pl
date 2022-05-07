@@ -26,8 +26,8 @@ writeList([H|T]):- write(H),write(' '),writeList(T).
 append([],X,X).
 append([X|T],Y,[X|T1]) :- append(T,Y,T1).
 
-listleng([],0).
-listleng([_|T],I):-listleng(T,I1),I is I1 + 1.
+listLength([],0).
+listLength([_|T],I):-listLength(T,I1),I is I1 + 1.
 %1.1 Дана строка. Вывести ее три раза через запятую и показать количество символов в ней.
 task11:-readS(Str,N,0),writeS(Str),write(", "),writeS(Str),write(", "),writeS(Str),write(" , "),write(N).
 %1.2 Дана строка. Найти количество слов.
@@ -130,8 +130,22 @@ getNumberOfCharsLikeThat([StrH|StrT],ListNumbers,LastChar,I):-
 
 task15:-readS(Str,N,0),getNumberOfCharsThatLikeLast(Str,ListNumbers),writeList(ListNumbers),!.
 %2.1 Дан файл. Прочитать из файла строки и вывести длину наибольшей строки.
+getMaxLengthStr(ListStr,MaxLength):-getMaxLengthStr(ListStr,MaxLength,-1).
+getMaxLengthStr([],MaxLength,NowMax):- MaxLength is NowMax,!.
+getMaxLengthStr([ListStrH|ListStrT],MaxLength,NowMax):-
+	listLength(ListStrH, Length),
+	(
+		Length > NowMax,
+
+		getMaxLengthStr(ListStrT,MaxLength,Length);
+
+		getMaxLengthStr(ListStrT,MaxLength,NowMax)
+	),!.
+
+task21:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/21.txt'),readListS(ListStr),getMaxLengthStr(ListStr,MaxLength),seen,
+	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/21.txt'),write(MaxLength),told.
 %2.2 Дан файл. Определить, сколько в файле строк, не содержащих пробелы.
-%2.3 Дан файл, найти и вывести на экран только те строки, в которых букв А больше, чем в среднем на строку.
+%2.3 Дан файл, найти и вывести на экран только те строки, в которых букв А больше, чем в среднем на стр
 %2.4 Дан файл, вывести самое частое слово.
 %2.5 Дан файл, вывести в отдельный файл строки, состоящие из слов, не повторяющихся в исходном файле.
 %3 Дана строка, состоящая из символов латиницы. Необходимо проверить, упорядочены ли строчные символы этой строки по возрастанию.
