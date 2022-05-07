@@ -39,7 +39,44 @@ countOfWords([H|T],Count):-
 
 task12:-readS(Str,N,0),countOfWords(Str,Count),write(Count).
 %1.3 Дана строка, определить самое частое слово
+getListOfWordsFromStr(Str,List):-getListOfWordsFromStr(Str,List,[]).
+getListOfWordsFromStr([],WordsList,NowWord):-append([NowWord], [],WordsList).
+getListOfWordsFromStr([H|T],WordsList,NowWord):-
+	(
+		not(H is 32),
+		
+		append(NowWord,[H],NowWord1),
+		getListOfWordsFromStr(T,WordsList,NowWord1);
 
+		getListOfWordsFromStr(T,WordsList1,[]),
+		append([NowWord],WordsList1,WordsList)
+	),!.
+
+mostRatedWordFromList(WordsList,Word):-mostRatedWordFromList(WordsList,Word,[],-1,WordsList).
+mostRatedWordFromList([],Word,NowWord,Count,StartList):-append([],NowWord,Word),!.
+mostRatedWordFromList([WordsListH|WordsListT],Word,NowWord,Count,StartList):-
+	countOfThisWordInList(StartList,WordsListH,NowCount),
+	(
+		NowCount>Count,
+
+		mostRatedWordFromList(WordsListT,Word,WordsListH,NowCount,StartList);
+
+		mostRatedWordFromList(WordsListT,Word,NowWord,Count,StartList)
+	),!.
+countOfThisWordInList([],Word,NowCount):- NowCount is 0,!.
+countOfThisWordInList([StartListH|StartListT],Word,NowCount):-
+	StartListH = Word,
+
+	countOfThisWordInList(StartListT,Word,NowCount1),
+	NowCount is NowCount1+1,!;
+
+	countOfThisWordInList(StartListT,Word,NowCount),!.
+
+mostRatedWordFromStr(Str,Word):-
+	getListOfWordsFromStr(Str,WordsList),
+	mostRatedWordFromList(WordsList,Word).
+
+task13:-readS(Str,N,0),mostRatedWordFromStr(Str,Word),writeS(Word).
 %1.4 Дана строка. Вывести первые три символа и последний три символа, если длина строки больше 5 Иначе вывести первый символ столько раз, какова длина строки.
 %1.5 Дана строка. Показать номера символов, совпадающих с последним символом строки.
 %2.1 Дан файл. Прочитать из файла строки и вывести длину наибольшей строки.
