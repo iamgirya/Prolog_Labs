@@ -1,31 +1,33 @@
 %consult("C:/users/danek/Documents/GitHub/Prolog_Labs/lab14.pl").
 
-read_str(A,N,Flag):-get0(X),r_str(X,A,[],N,0,Flag).
-r_str(-1,A,A,N,N,1):-!.
-r_str(10,A,A,N,N,0):-!.
-r_str(X,A,B,N,K,Flag):-K1 is K+1,append(B,[X],B1),get0(X1),r_str(X1,A,B1,N,K1,Flag).
+readS(Str,N,IsLast):-get0(Char),readS(Char,Str,[],N,0,IsLast). % чтение строки из файла
+readS(-1,Str,Str,N,N,1):-!.
+readS(10,Str,Str,N,N,0):-!.
+readS(Char,Str,NowStr,N,I,IsLast):-I1 is I+1,append(NowStr,[Char],NowStr1),get0(Char1),readS(Char1,Str,NowStr1,N,I1,IsLast).
 
-read_list_str(List):-read_str(A,_,Flag),read_list_str([A],List,Flag).
-read_list_str(List,List,1):-!.
-read_list_str(Cur_list,List,0):-
-	read_str(A,_,Flag),append(Cur_list,[A],C_l),read_list_str(C_l,List,Flag).
+readListS(List):-readS(Str,_,IsLast),readListS([Str],List,IsLast). % чтение из файла списка строк
+readListS(List,List,1):-!.
+readListS(Cur_list,List,0):-
+	readS(Str,_,IsLast),append(Cur_list,[Str],C_l),readListS(C_l,List,IsLast).
 	
-read_str(A,N):-get0(X),r_str(X,A,[],N,0).
-r_str(10,A,A,N,N):-!.
-r_str(X,A,B,N,K):-K1 is K+1,append(B,[X],B1),get0(X1),r_str(X1,A,B1,N,K1).	
+readS(Str,N):-readS(Str,N,0). % чтение строки длины N
 
-write_str([]):-!.
-write_str([H|Tail]):-put(H),write_str(Tail).
+writeS([]):-!. %вывод стринга
+writeS([H|T]):-put(H),writeS(T).
 
-write_list_str([]):-!.
-write_list_str([H|T]):-write_str(H),nl,write_list_str(T).
+writeListS([]):-!. %вывод списка стрингов
+writeListS([H|T]):-writeS(H),nl,writeListS(T).
 
 append([],X,X).
 append([X|T],Y,[X|T1]) :- append(T,Y,T1).
 
+listleng([],0).
+listleng([_|T],I):-listleng(T,I1),I is I1 + 1.
 %1.1 Дана строка. Вывести ее три раза через запятую и показать количество символов в ней.
+task11:-readS(Str,N,0),writeS(Str),write(", "),writeS(Str),write(", "),writeS(Str),write(" , "),write(N).
 %1.2 Дана строка. Найти количество слов.
 %1.3 Дана строка, определить самое частое слово
+
 %1.4 Дана строка. Вывести первые три символа и последний три символа, если длина строки больше 5 Иначе вывести первый символ столько раз, какова длина строки.
 %1.5 Дана строка. Показать номера символов, совпадающих с последним символом строки.
 %2.1 Дан файл. Прочитать из файла строки и вывести длину наибольшей строки.
