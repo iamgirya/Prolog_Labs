@@ -195,6 +195,18 @@ getListOfStrWhereMoreAThenAvgOfA(ListStr,NewList):-
 task23:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/23.txt'),readListS(ListStr),getListOfStrWhereMoreAThenAvgOfA(ListStr,NewList),seen,
 	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/23.txt'),writeListS(NewList),told.
 %2.4 Дан файл, вывести самое частое слово.
+getMostRatedWordFromListStr(ListStr,Word):-
+	getListOfWordsFromListStr(ListStr,WordsList),
+	mostRatedWordFromList(WordsList,Word).
+
+getListOfWordsFromListStr([],WordsList):-makeEmptyList(WordsList),!.
+getListOfWordsFromListStr([ListStrH|ListStrT],WordsList):-
+	getListOfWordsFromStr(ListStrH,WordsList1),
+	getListOfWordsFromListStr(ListStrT,WordsList2),
+	append(WordsList1,WordsList2,WordsList),!.	
+
+task24:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/24.txt'),readListS(ListStr),getMostRatedWordFromListStr(ListStr,Word),seen,
+	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/24.txt'),writeS(Word),told.
 %2.5 Дан файл, вывести в отдельный файл строки, состоящие из слов, не повторяющихся в исходном файле.
 %3 Дана строка, состоящая из символов латиницы. Необходимо проверить, упорядочены ли строчные символы этой строки по возрастанию.
 %4 Дана строка. Необходимо подсчитать количество букв "А" в этой строке.
