@@ -19,6 +19,10 @@ writeS([H|T]):-put(H),writeS(T).
 writeListS([]):-!. %вывод списка стрингов
 writeListS([H|T]):-writeS(H),nl,writeListS(T).
 
+writeList([]):-!.
+writeList([H]):-write(H).
+writeList([H|T]):- write(H),write(' '),writeList(T).
+
 append([],X,X).
 append([X|T],Y,[X|T1]) :- append(T,Y,T1).
 
@@ -110,6 +114,21 @@ task14:-
 		writeNTimesFirst(Str,N)
 	),!.
 %1.5 Дана строка. Показать номера символов, совпадающих с последним символом строки.
+getNumberOfCharsThatLikeLast(Str,ListNumbers):-cutLastChar(Str,_,LastChar),getNumberOfCharsLikeThat(Str,ListNumbers,LastChar),!.
+getNumberOfCharsLikeThat(Str,ListNumbers,LastChar):-getNumberOfCharsLikeThat(Str,ListNumbers,LastChar,0),!.
+getNumberOfCharsLikeThat([],ListNumbers,LastChar,I):-makeEmptyList(ListNumbers),!.
+getNumberOfCharsLikeThat([StrH|StrT],ListNumbers,LastChar,I):-
+	I1 is I+1,
+	(
+	StrH = LastChar,
+
+	getNumberOfCharsLikeThat(StrT,ListNumbers1,LastChar,I1),
+	append([I1],ListNumbers1,ListNumbers),!;
+
+	getNumberOfCharsLikeThat(StrT,ListNumbers,LastChar,I1),!	
+	).
+
+task15:-readS(Str,N,0),getNumberOfCharsThatLikeLast(Str,ListNumbers),writeList(ListNumbers),!.
 %2.1 Дан файл. Прочитать из файла строки и вывести длину наибольшей строки.
 %2.2 Дан файл. Определить, сколько в файле строк, не содержащих пробелы.
 %2.3 Дан файл, найти и вывести на экран только те строки, в которых букв А больше, чем в среднем на строку.
