@@ -6,6 +6,11 @@ readS(-1,Str,Str,N,N,1):-!.
 readS(10,Str,Str,N,N,0):-!.
 readS(Char,Str,NowStr,N,I,IsLast):-I1 is I+1,append(NowStr,[Char],NowStr1),get0(Char1),readS(Char1,Str,NowStr1,N,I1,IsLast).
 
+readOneS(Str,N):-get0(Char),readOneS(Char,Str,[],N,0). % чтение одной строки из файла
+readOneS(10,Str,Str,N,N):-!.
+readOneS(-1,Str,Str,N,N):-!.
+readOneS(Char,Str,NowStr,N,I):-I1 is I+1,append(NowStr,[Char],NowStr1),get0(Char1),readOneS(Char1,Str,NowStr1,N,I1).
+
 readListS(List):-readS(Str,_,IsLast),readListS([Str],List,IsLast). % чтение из файла списка строк
 readListS(List,List,1):-!.
 readListS(Cur_list,List,0):-
@@ -291,6 +296,84 @@ getNameOfFile([StrH|StrT],Name,NowName):-
 
 task5:-readS(Str,N,0),getNameOfFile(Str,Name),writeS(Name),!.
 %6 Результат записывать в файл.
+task6:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/6.txt'),readOneS(StrK,_),readOneS(Mnoj,_),K is StrK-48,seen,
+	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/6.txt'),
+	write('6.1:'),nl,
+	not(razmesheniyaSPoovtoreniyamiPoK(Mnoj,K,[])),nl,!,
+	write('6.2:'),nl,
+	not(perestanovki(Mnoj,[])),nl,!,
+	write('6.3:'),nl,
+	not(razmesheniyaPoK(Mnoj,K,[])),nl,!,
+	write('6.4:'),nl,
+	allPodMnoj(Mnoj,[]),!,
+	write('6.5'),nl,
+	sochetaniyaPoK(Mnoj,K,[]),!,
+	write('6.6'),nl,
+	sochetaniyaSPovtoreniyamiPoK(Mnoj,K,[]),!,
+	told.
+		
+razmesheniyaSPoovtoreniyamiPoK(_,0,Rasm):-writeS(Rasm),nl,!,fail.
+razmesheniyaSPoovtoreniyamiPoK(Mnoj,K,Rasm):-
+	inList(Mnoj,El),
+	K1 is K-1,
+	razmesheniyaSPoovtoreniyamiPoK(Mnoj,K1,[El|Rasm]).
+
+perestanovki([],Per):-writeS(Per),nl,!,fail.
+perestanovki(Mnoj,Per):-inListAndDelete(Mnoj,El,Mnoj1),perestanovki(Mnoj1,[El|Per]).
+
+razmesheniyaPoK(_,0,Raz):-writeS(Raz),nl,!,fail.
+razmesheniyaPoK(Mnoj,K,Raz):-inListAndDelete(Mnoj,El,Mnoj1),K1 is K-1,razmesheniyaPoK(Mnoj1,K1,[El|Raz]).
+
+allPodMnoj(Mnoj,PodMnoj):-allPodMnoj(Mnoj,PodMnoj,1).
+allPodMnoj([],PodMnoj,IsNeedToWrite):-
+	(
+		1 is IsNeedToWrite,
+		writeS(PodMnoj),nl;
+		IsNeedToWrite is 0
+	),!.
+allPodMnoj(Mnoj,PodMnoj,IsNeedToWrite):-
+	(
+		IsNeedToWrite is 1,
+		writeS(PodMnoj),nl;
+		IsNeedToWrite is 0
+	),
+	inListAndDelete(Mnoj,El,Mnoj1),
+	append([El],PodMnoj,NewPodMnoj),
+	allPodMnoj(Mnoj1,PodMnoj,0),
+	allPodMnoj(Mnoj1,NewPodMnoj,1).
+
+sochetaniyaPoK([],K,PodMnoj):-
+	0 is K,
+	writeS(PodMnoj),nl,!;
+	!.
+sochetaniyaPoK(Mnoj,0,PodMnoj):-
+	writeS(PodMnoj),nl,!.
+sochetaniyaPoK(Mnoj,K,PodMnoj):-
+	inListAndDelete(Mnoj,El,Mnoj1),
+	append([El],PodMnoj,NewPodMnoj),
+	K1 is K-1,
+	sochetaniyaPoK(Mnoj1,K,PodMnoj),
+	sochetaniyaPoK(Mnoj1,K1,NewPodMnoj).
+
+sochetaniyaSPovtoreniyamiPoK([],K,PodMnoj):-
+	0 is K,
+	writeS(PodMnoj),nl,!;
+	!.
+sochetaniyaSPovtoreniyamiPoK(Mnoj,0,PodMnoj):-
+	writeS(PodMnoj),nl,!.
+sochetaniyaSPovtoreniyamiPoK(Mnoj,K,PodMnoj):-
+	cutLastChar(Mnoj,Mnoj1,El),
+	append([El],PodMnoj,NewPodMnoj),
+	K1 is K-1,
+	sochetaniyaSPovtoreniyamiPoK(Mnoj1,K,PodMnoj),
+	sochetaniyaSPovtoreniyamiPoK(Mnoj,K1,NewPodMnoj),!.
+
+inList([],_):-fail.
+inList([X|_],X).
+inList([_|T],X):-inList(T,X).
+
+inListAndDelete([El|T],El,T).
+inListAndDelete([H|T],El,[H|Tail]):-inListAndDelete(T,El,Tail).
 %6.1 Дано множество. Построить все размещения с повторениями по k элементов.
 %6.2 Дано множество. Построить все перестановки.
 %6.3 Дано множество. Построить все размещения по k элементов.
