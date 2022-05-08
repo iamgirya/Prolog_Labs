@@ -252,6 +252,25 @@ isStrInStrList(Str,[ListStrH|ListStrT]):-
 task25:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/25.txt'),readListS(ListStr),getStrWithUniqueWordsFromListStr(ListStr,NewListStr),seen,
 	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/25.txt'),writeListS(NewListStr),told.
 %3 Дана строка, состоящая из символов латиницы. Необходимо проверить, упорядочены ли строчные символы этой строки по возрастанию.
+isStrUpOrderWithStroch(Str):-isStrUpOrderWithStroch(Str,0).
+isStrUpOrderWithStroch([],PreviousChar):-!.
+isStrUpOrderWithStroch([StrH|StrT],PreviousChar):-
+		(
+			StrH >= 97,
+			122 >= StrH,
+			
+			(
+				StrH>PreviousChar,
+
+				isStrUpOrderWithStroch(StrT,StrH);
+
+				!,fail
+			);
+
+			isStrUpOrderWithStroch(StrT,PreviousChar)
+		),!.
+
+task3:-readS(Str,N,0),isStrUpOrderWithStroch(Str),write(Str),!.
 %4 Дана строка. Необходимо подсчитать количество букв "А" в этой строке.
 %5 Дана строка в которой записан путь к файлу. Необходимо найти имя файла без расширения.
 %6 Результат записывать в файл.
