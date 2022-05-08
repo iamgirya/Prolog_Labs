@@ -270,8 +270,9 @@ isStrUpOrderWithStroch([StrH|StrT],PreviousChar):-
 			isStrUpOrderWithStroch(StrT,PreviousChar)
 		),!.
 
-task3:-readS(Str,N,0),isStrUpOrderWithStroch(Str),write(Str),!.
+task3:-readS(Str,N,0),isStrUpOrderWithStroch(Str),!.
 %4 Дана строка. Необходимо подсчитать количество букв "А" в этой строке.
+task4:-readS(Str,N,0),getCountOfCharsLikeThat(Str,65,Count),write(Count),!.
 %5 Дана строка в которой записан путь к файлу. Необходимо найти имя файла без расширения.
 %6 Результат записывать в файл.
 %6.1 Дано множество. Построить все размещения с повторениями по k элементов.
