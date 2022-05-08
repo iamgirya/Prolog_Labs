@@ -274,6 +274,22 @@ task3:-readS(Str,N,0),isStrUpOrderWithStroch(Str),!.
 %4 Дана строка. Необходимо подсчитать количество букв "А" в этой строке.
 task4:-readS(Str,N,0),getCountOfCharsLikeThat(Str,65,Count),write(Count),!.
 %5 Дана строка в которой записан путь к файлу. Необходимо найти имя файла без расширения.
+getNameOfFile(Str,Name):-getNameOfFile(Str,Name,[]).
+getNameOfFile([StrH|StrT],Name,NowName):-
+	StrH = 46,  % .
+	append([],NowName,Name)
+	,!;
+
+	(
+		StrH = 47, % /
+
+		getNameOfFile(StrT,Name,[]);
+
+		append(NowName,[StrH],NewName),
+		getNameOfFile(StrT,Name,NewName)		
+	),!.
+
+task5:-readS(Str,N,0),getNameOfFile(Str,Name),writeS(Name),!.
 %6 Результат записывать в файл.
 %6.1 Дано множество. Построить все размещения с повторениями по k элементов.
 %6.2 Дано множество. Построить все перестановки.
