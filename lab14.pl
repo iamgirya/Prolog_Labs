@@ -208,6 +208,49 @@ getListOfWordsFromListStr([ListStrH|ListStrT],WordsList):-
 task24:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/24.txt'),readListS(ListStr),getMostRatedWordFromListStr(ListStr,Word),seen,
 	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/24.txt'),writeS(Word),told.
 %2.5 Дан файл, вывести в отдельный файл строки, состоящие из слов, не повторяющихся в исходном файле.
+getStrWithUniqueWordsFromListStr(ListStr,NewListStr):-
+	getListOfWordsFromListStr(ListStr,WordsList),
+	getUniqueWordsFromWordsList(WordsList,UniqueWordsList),
+	getStrWithUniqueWords(ListStr,UniqueWordsList,NewListStr).
+
+getUniqueWordsFromWordsList(WordsList,UniqueWordsList):-getUniqueWordsFromWordsList(WordsList,UniqueWordsList,WordsList),!.
+
+getUniqueWordsFromWordsList([],UniqueWordsList,StartList):-makeEmptyList(UniqueWordsList),!.
+getUniqueWordsFromWordsList([WordsListH|WordsListT],UniqueWordsList,StartList):-
+	countOfThisWordInList(StartList,WordsListH,Count),
+	(
+		1 is Count,
+		getUniqueWordsFromWordsList(WordsListT,UniqueWordsList1,StartList),
+		append([WordsListH],UniqueWordsList1, UniqueWordsList);
+
+		getUniqueWordsFromWordsList(WordsListT,UniqueWordsList,StartList)
+	),!.
+
+getStrWithUniqueWords([],UniqueWordsList,NewListStr):-makeEmptyList(NewListStr),!.
+getStrWithUniqueWords([ListStrH|ListStrT],UniqueWordsList,NewListStr):-
+	isThereUniqueWordsInStr(ListStrH,UniqueWordsList),
+	getStrWithUniqueWords(ListStrT,UniqueWordsList,NewListStr1),
+	append([ListStrH],NewListStr1,NewListStr),!;
+
+	getStrWithUniqueWords(ListStrT,UniqueWordsList,NewListStr),!.
+
+isThereUniqueWordsInStr(Str,UniqueWordsList):-
+	getListOfWordsFromStr(Str,WordsList),
+	isThereUniqueWordsInWordList(WordsList,UniqueWordsList).
+
+isThereUniqueWordsInWordList([],UniqueWordsList):-!.
+isThereUniqueWordsInWordList([WordsListH|WordsListT],UniqueWordsList):-
+	isStrInStrList(WordsListH,UniqueWordsList),
+	isThereUniqueWordsInWordList(WordsListT,UniqueWordsList),!.
+
+isStrInStrList(Str,[]):-fail,!.
+isStrInStrList(Str,[ListStrH|ListStrT]):- 
+	Str = ListStrH,!;
+	isStrInStrList(Str,ListStrT),!.
+	
+
+task25:-see('C:/Users/danek/Documents/GitHub/Prolog_Labs/inTxtForLab14/25.txt'),readListS(ListStr),getStrWithUniqueWordsFromListStr(ListStr,NewListStr),seen,
+	tell('C:/Users/danek/Documents/GitHub/Prolog_Labs/outTxtForLab14/25.txt'),writeListS(NewListStr),told.
 %3 Дана строка, состоящая из символов латиницы. Необходимо проверить, упорядочены ли строчные символы этой строки по возрастанию.
 %4 Дана строка. Необходимо подсчитать количество букв "А" в этой строке.
 %5 Дана строка в которой записан путь к файлу. Необходимо найти имя файла без расширения.
